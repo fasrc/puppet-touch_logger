@@ -6,8 +6,11 @@ CURRENT_USER="${USER:-$(id -un)}"
 
 for file in "$@"
 do
-  fullpath=$(realpath ${file})
-  echo "${CURRENT_USER} is running touch on ${fullpath}"
+  if [[ ${file::1} != "-" ]];
+  then
+    fullpath=$(realpath ${file})
+    echo "${CURRENT_USER} is running touch on ${fullpath}"
+  fi
 done
 
 exec "$REAL_TOUCH" "$@"
