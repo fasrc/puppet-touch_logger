@@ -1,0 +1,13 @@
+#!/bin/bash
+# This code is intended to squat on the same name space as the touch command and seamlessly log the action taken by the user.
+
+REAL_TOUCH="/usr/bin/touch"
+CURRENT_USER="${USER:-$(id -un)}"
+
+for file in "$@"
+do
+  fullpath=$(realpath file)
+  echo "${CURRENT_USER} is running touch on ${fullpath}"
+done
+
+exec "$REAL_TOUCH" "$@"
