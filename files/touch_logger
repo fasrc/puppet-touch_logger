@@ -1,6 +1,11 @@
 #!/bin/bash
 # This code is intended to squat on the same name space as the touch command and seamlessly log the action taken by the user.
 
+progname=${0##*/}
+log() {
+        logger -it "$progname"
+}
+
 REAL_TOUCH="/usr/bin/touch"
 CURRENT_USER="${USER:-$(id -un)}"
 FILTER_DIR="/n/netscratch"
@@ -12,7 +17,7 @@ do
     fullpath=$(realpath ${file})
     if [[ $fullpath == ${FILTER_DIR}* ]];
     then
-      echo "${CURRENT_USER} is running touch on ${fullpath}"
+      echo "${CURRENT_USER} is running touch on ${fullpath}" | log
     fi
   fi
 done
