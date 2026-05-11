@@ -3,13 +3,17 @@
 
 REAL_TOUCH="/usr/bin/touch"
 CURRENT_USER="${USER:-$(id -un)}"
+FILTER_DIR="/n/netscratch"
 
 for file in "$@"
 do
   if [[ ${file::1} != "-" ]];
   then
     fullpath=$(realpath ${file})
-    echo "${CURRENT_USER} is running touch on ${fullpath}"
+    if [[ $fullpath == ${FILTER_DIR}* ]];
+    then
+      echo "${CURRENT_USER} is running touch on ${fullpath}"
+    fi
   fi
 done
 
